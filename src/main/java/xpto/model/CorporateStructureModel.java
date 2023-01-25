@@ -5,13 +5,13 @@ import lombok.Data;
 import java.util.LinkedList;
 
 @Data
-public class CorporateStructure {
+public class CorporateStructureModel {
 
     private int vertex;
-    private LinkedList<Integer> partners[];
-    private int corporateProperties;
+    private LinkedList[] partners;
+    private double corporateProperties;
 
-    public CorporateStructure(int personAmount) {
+    public CorporateStructureModel(int personAmount) {
         vertex = personAmount;
         corporateProperties = 0;
         partners = new LinkedList[personAmount];
@@ -23,7 +23,7 @@ public class CorporateStructure {
         partners[person].add(partner);
     }
 
-    public void addCorporateProperties(int propertie){
+    public void addCorporateProperties(double propertie){
         corporateProperties += propertie;
     }
 

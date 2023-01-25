@@ -13,9 +13,8 @@ public class FinancialCommitmentController {
     private final FinancialCommitmentService service;
 
     @GetMapping("/financial-commitment/company/{id}")
-    public int calculateFinancialCommitment(@PathVariable Long id) {
-        return service.returnPartners(id);
+    public double calculateFinancialCommitment(@PathVariable Long id) {
+        return service.getFinancialCommitment(id);
     }
-
 
 }

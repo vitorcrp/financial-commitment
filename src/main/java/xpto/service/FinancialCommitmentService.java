@@ -8,11 +8,12 @@ import org.springframework.stereotype.Service;
 public class FinancialCommitmentService {
 
     private final PartnersService partnersService;
+    private final PersonService personService;
 
-    public int returnPartners(Long companyId){
+    public double getFinancialCommitment(Long companyId){
+        personService.validateCompany(companyId);
         var corporateStructure = partnersService.buildStructureByPartners();
         partnersService.bfs(Math.toIntExact(companyId), corporateStructure);
-
         return corporateStructure.getCorporateProperties();
     }
 

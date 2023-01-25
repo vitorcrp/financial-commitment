@@ -1,16 +1,13 @@
 package xpto.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import xpto.model.CorporateStructure;
+import xpto.model.CorporateStructureModel;
 import xpto.repository.PartnersRepository;
 import xpto.repository.PersonRepository;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 @Service
-@Slf4j
 public class PartnersService {
 
     private final PartnersRepository repository;
@@ -21,22 +18,24 @@ public class PartnersService {
         this.personRepository = personRepository;
     }
 
-    public CorporateStructure buildStructureByPartners(){
+    public CorporateStructureModel buildStructureByPartners(){
         var partnersList = repository.findAll();
 
         var personNumbers = personRepository.count();
 
-        var comporateStructure = new CorporateStructure((int) personNumbers);
+        var comporateStructure = new CorporateStructureModel((int) personNumbers);
 
-        partnersList.stream()
+        partnersList
                 .forEach(partner -> comporateStructure.addCorporateRelation(partner.getIdPessoa(), partner.getIdPartner()));
 
         return comporateStructure;
     }
 
-    void bfs(int companyId, CorporateStructure corporateStructure) {
+    //ToDo improve algorithm
+
+    void bfs(int companyId, CorporateStructureModel corporateStructureModel) {
         
-        boolean visited[] = new boolean[corporateStructure.getVertex()];
+        var visited = new boolean[corporateStructureModel.getVertex()];
 
         // Create a queue for BFS
         var queue = new LinkedList<Integer>();
@@ -45,18 +44,16 @@ public class PartnersService {
         visited[companyId] = true;
         queue.add(companyId);
 
-        while (queue.size() != 0) {
+        while (!queue.isEmpty()) {
             // Dequeue a vertex from queue and print it
             companyId = queue.poll();
 
-            incrementPropertie(companyId, corporateStructure);
+            incrementPropertie(companyId, corporateStructureModel);
 
             // Get all adjacent vertices of the dequeued
             // vertex companyId If a adjacent has not been visited,
             // then mark it visited and enqueue it
-            Iterator<Integer> i = corporateStructure.getPartners()[companyId].listIterator();
-            while (i.hasNext()) {
-                int n = i.next();
+            for (int n : corporateStructureModel.getPartners()[companyId]) {
                 if (!visited[n]) {
                     visited[n] = true;
                     queue.add(n);
@@ -65,9 +62,9 @@ public class PartnersService {
         }
     }
 
-    void incrementPropertie(int partnerId, CorporateStructure corporateStructure){
+    void incrementPropertie(int partnerId, CorporateStructureModel corporateStructureModel){
         var partner = personRepository.findById((long) partnerId).get();
-        corporateStructure.addCorporateProperties(partner.getProperties());
+        corporateStructureModel.addCorporateProperties(partner.getProperties());
     }
 
 

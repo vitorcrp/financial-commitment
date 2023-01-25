@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Person {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
     private Long id;
 
@@ -26,14 +26,15 @@ public class Person {
     private String cpfCnpj;
 
     @Column(name = "PROPERTIES", nullable = false)
-    private Integer properties;
+    private double properties;
 
     @Column(name = "PERSONTYPE", length = 2, nullable = false)
-    private PersonTypeEnum personTypeEnum;
+    private String personType;
 
-    public Person(Long id, String cpfCnpj, Integer properties) {
+    public Person(Long id, String cpfCnpj, Double properties, String personType) {
         this.id = id;
         this.cpfCnpj = cpfCnpj;
         this.properties = properties;
+        this.personType = personType;
     }
 }
