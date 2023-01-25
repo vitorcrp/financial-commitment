@@ -10,10 +10,10 @@ public class FinancialCommitmentService {
     private final PartnersService partnersService;
     private final PersonService personService;
 
-    public double getFinancialCommitment(Long companyId){
+    public double getFinancialCommitment(int companyId){
         personService.validateCompany(companyId);
         var corporateStructure = partnersService.buildStructureByPartners();
-        partnersService.bfs(Math.toIntExact(companyId), corporateStructure);
+        partnersService.throughCorporateStructure(companyId, corporateStructure);
         return corporateStructure.getCorporateProperties();
     }
 

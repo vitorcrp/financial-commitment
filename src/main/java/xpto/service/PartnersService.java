@@ -20,42 +20,33 @@ public class PartnersService {
 
     public CorporateStructureModel buildStructureByPartners(){
         var partnersList = repository.findAll();
-
         var personNumbers = personRepository.count();
-
         var comporateStructure = new CorporateStructureModel((int) personNumbers);
 
         partnersList
-                .forEach(partner -> comporateStructure.addCorporateRelation(partner.getIdPessoa(), partner.getIdPartner()));
+                .forEach(
+                        partner -> comporateStructure.addCorporateRelation(
+                                        partner.getIdPerson(), partner.getIdPartner()
+                                )
+                );
 
         return comporateStructure;
     }
 
-    //ToDo improve algorithm
-
-    void bfs(int companyId, CorporateStructureModel corporateStructureModel) {
-        
-        var visited = new boolean[corporateStructureModel.getVertex()];
-
-        // Create a queue for BFS
+    void throughCorporateStructure(int companyId, CorporateStructureModel corporateStructureModel) {
+        var visitedVertex = new boolean[corporateStructureModel.getVertex()];
         var queue = new LinkedList<Integer>();
 
-        // Mark the current node as visited and enqueue it
-        visited[companyId] = true;
+        visitedVertex[companyId] = true;
         queue.add(companyId);
 
         while (!queue.isEmpty()) {
-            // Dequeue a vertex from queue and print it
             companyId = queue.poll();
-
             incrementPropertie(companyId, corporateStructureModel);
 
-            // Get all adjacent vertices of the dequeued
-            // vertex companyId If a adjacent has not been visited,
-            // then mark it visited and enqueue it
             for (int n : (Iterable<Integer>) corporateStructureModel.getPartners()[companyId]) {
-                if (!visited[n]) {
-                    visited[n] = true;
+                if (!visitedVertex[n]) {
+                    visitedVertex[n] = true;
                     queue.add(n);
                 }
             }
@@ -63,10 +54,8 @@ public class PartnersService {
     }
 
     void incrementPropertie(int partnerId, CorporateStructureModel corporateStructureModel){
-        var partner = personRepository.findById((long) partnerId).get();
+        var partner = personRepository.findById(partnerId).get();
         corporateStructureModel.addCorporateProperties(partner.getProperties());
     }
-
-
 
 }

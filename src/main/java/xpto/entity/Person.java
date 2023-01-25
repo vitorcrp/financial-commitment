@@ -20,7 +20,7 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
-    private Long id;
+    private int id;
 
     @Column(name = "CPFCNPJ", length = 14, nullable = false)
     private String cpfCnpj;
@@ -31,7 +31,7 @@ public class Person {
     @Column(name = "PERSONTYPE", length = 2, nullable = false)
     private String personType;
 
-    public Person(Long id, String cpfCnpj, Double properties, String personType) {
+    public Person(int id, String cpfCnpj, Double properties, String personType) {
         this.id = id;
         this.cpfCnpj = cpfCnpj;
         this.properties = properties;

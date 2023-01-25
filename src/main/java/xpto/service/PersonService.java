@@ -3,6 +3,7 @@ package xpto.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import xpto.enums.PersonTypeEnum;
+import xpto.exception.notFound.CompanyNotFoundException;
 import xpto.repository.PersonRepository;
 
 @Service
@@ -15,13 +16,10 @@ public class PersonService {
         this.repository = repository;
     }
 
-    public void validateCompany(Long idCompany){
+    public void validateCompany(int idCompany){
         if(repository.findByIdAndPersonType(idCompany, PersonTypeEnum.PJ.name()) == null){
-            //ToDo exception
-            throw new IllegalArgumentException("Empresa nao encontrada");
+            throw new CompanyNotFoundException(idCompany);
         }
-
-
     }
 
 }

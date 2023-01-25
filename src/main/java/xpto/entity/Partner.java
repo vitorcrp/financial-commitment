@@ -19,17 +19,17 @@ public class Partner {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
-    private Long id;
+    private int id;
 
-    @Column(name = "IDPESSOA",  nullable = false)
-    private Integer idPessoa;
+    @Column(name = "IDPERSON",  nullable = false)
+    private Integer idPerson;
 
     @Column(name = "IDPARTNER", nullable = false)
     private Integer idPartner;
 
-    public Partner(Long id, Integer idPessoa, Integer idPartner) {
+    public Partner(int id, Integer idPerson, Integer idPartner) {
         this.id = id;
-        this.idPessoa = idPessoa;
+        this.idPerson = idPerson;
         this.idPartner = idPartner;
     }
 }
