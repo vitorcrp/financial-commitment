@@ -53,7 +53,7 @@ public class PartnersService {
             // Get all adjacent vertices of the dequeued
             // vertex companyId If a adjacent has not been visited,
             // then mark it visited and enqueue it
-            for (int n : corporateStructureModel.getPartners()[companyId]) {
+            for (int n : (Iterable<Integer>) corporateStructureModel.getPartners()[companyId]) {
                 if (!visited[n]) {
                     visited[n] = true;
                     queue.add(n);
